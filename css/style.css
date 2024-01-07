@@ -1,0 +1,483 @@
+/*
+
+Diferentes formas de escribir css:
+	-BEM Bloques Elementos y Modificadores 
+		.card{}
+		.card__titulo{}
+		.card__imagen{}
+		.card__boton{}
+		.card__boton--activo{}
+	-Utility First - Creas una sola clase que define lo que hace (Un valor por clase)
+		.text-center{}
+		.text-red-100{}
+		.bg-blue-200{}
+	-Modulos - Define el contenido principal y seleccionas por etiquetas
+		.card{}
+		.card h2{}
+		.card img{}
+		
+
+Anatomia de css
+
+Selector de elemento. Seleccionas los identificadores que provee el lenguaje
+selector o identificador{
+	propiedad : valor ;
+}
+
+Selector de clases. Sirve para crear tus identificadores 
+.cliente{
+	color: blue;
+}
+
+Selector de ID. Puedes tener multiplos IDs pero no pueden repetirse
+#Cliente{
+	color: blue;
+}
+
+Selector de atributo. Selecciona elementos basados en algun atributo
+[src="logo"]{
+	color: blue;
+}
+
+Combinacion de descendentes. Selecciona elementos hijos cuyos padres sean una clase
+o ID especifico
+.cliente .nombre{
+	color: blue;
+}
+
+Todos los hijos. Aplica la regla a todos los parrafos hijos
+.cliente > p{
+	color: blue;
+}
+
+Colores en Css
+ -Hexadecimal (3 digitos o 6 digitos):  #000; ó #000000;
+ -Nombre:  color: black;
+ -grb o hsl
+ -Transparencia: rgba o hsla
+
+:nombre{
+	--Propiedad: valor;
+}
+ -> Cuando inician con dos puntos son pseudoelementos que no existen, pero 
+	sirven para almacenar variables -> Custom Propieties
+
+Para fuentes puedes usar googlefonts
+
+Tipos de displays: 
+ -block: El elemento se va colocar uno debajo del otro sin importar su tamaño o contenido
+ 	- Parrafos
+ -inline: El elemento se posiciona a la derecha una vez que haya tomado el espacio que requiere
+ 	-Imagenes, navegaciones
+ -Flexbox: Da propiedades para ordenar elementos. Modelo unidimensional para crear layouts
+ 	Diseñado para alinear elementos
+ 	El contenido crece automaticamente
+  	-Distribuyes elementos en filas(row) y columnas(column)
+  	-Row es aplicador por defecto al llamar a flex -> De izquierda a derecha
+  	-row-reverse, column, column-reverse
+  	-Column -> De arriba hacia abajo
+  	- Usa para alineacion o distribucion de los elementos que esten dentro de los contenedores
+ -Css Grid: 
+	-Define la ubicacion y el tamaño de los elementos
+	-Se agrupa dentro de un área definida
+	-Acceso a las 2 dimensiones al mismo tiempo
+	-Se usa para definir el layout del sitio web, como columnas o contenedores de elementos
+
+ Eventos de css para enlaces: 
+ 	-hover. Cuando te colocas encima del enlace y termina cuando quitas el mouse del elemento
+ 	-visited. Despues de que visites el enlace
+ 	-focus. Se marca los elementos por los que pasas encima
+
+ Box Model
+ 	Tamaño del contenido, tamaño de relleno(padding), tamaño del borde y el margen
+ 	Todos los tamaños que se definen, se suman
+
+h1, h2, h3{} Esto se puede siempre que las propiedades css sean iguales a aplicar para los 
+		diferentes identificadores 
+
+cssmatic -> Pagina para crear el diseño de sombras o degradados de manera visual y te da el código 
+
+can i use?.com -> Pagina donde puedes verificar si alguna propiedad tiene soporte en los navegadores 
+
+	
+
+
+
+*/
+
+/* General */
+
+:root{
+
+	/* Paleta de colores en hexadecimal*/
+	--blanco: #ffffff;
+	--oscuro: #212121;
+	--primario: #FFC107;
+	--secundario: #0097A7;
+	--gris: #757575;
+	--grisClaro: #DFE9E3;
+
+}
+
+
+html{
+	font-size: 61.5%;
+	box-sizing: border-box; /* Los elementos no son afectados por el box model, de manera
+	que cada elemento puede tener su tamaño sin sumarlo dentro de la caja */
+	scroll-snap-type: y mandatory; /* Al bajar o subir por la pagina, cambia rapidamente a
+					las diferentes secciones */
+					/* x mandatory si fuera deslizamiento horizontal */
+	/* Tambien se puede usar la propiedad "y proximity", "x proximity" cuando no avanzas con
+	suficiente fuerza regresa a la seccion anterior */
+}
+
+*, *:before, *after{ /* * -> Selecciona todos los elementos del html */
+	/* "Pseudoelemento. Antes de los elementos del hmtl y despues (before, after)*/
+	box-sizing: inherit;
+} /* A todos los elemento le esta pasando el box-sizing para que no sea afectado por
+	el box model */
+
+/* Scroll snap */
+
+.navegacion_principal,
+.servicios,
+.formulario{
+	scroll-snap-align: center; /* Ayuda a centrarte en una seccion */
+	scroll-snap-stop: always; /* Se detiene cuando el scroll llega a la seccion */
+}
+
+body{
+	font-size: 16px;  /*1rem = 10px*/
+	font-family: 'Krub', sans-serif; ; /*Tipo de fuente */
+	background-image: linear-gradient(to top, var(--grisClaro) 0%, var(--blanco) 100%) ; /*Color de fondo de toda la pagina */
+	/* Color de fondo degradado -> Se indica hacia donde va ir el degradadi, el primer color y su porcentaje, segundo color y porcentaje */
+}
+/*Las intrucciones anteriores son para que el tamaño del texto se adapte mejor 
+a las pantallas de los diferentes dispositivos facilitando el uso de los rem */
+
+h1{
+	font-size: 3.8rem;
+}
+
+h2{
+	font-size: 2.8rem;
+}
+
+h3{
+	font-size: 1.8rem;
+}
+
+h1, h2, h3 {
+	text-align: center; /* Centra el texto */
+}
+
+.titulo{
+	color: var(--primario); /*Llamas el valor almacenado en root*/
+	/* font weight normalmente es a 700 */
+}
+
+.titulo span{ /*Solo aplica a span que haya dentro de h1 */
+	font-size: 2rem; /*Tamaño del texto */
+}
+.contenedor{
+	margin: 0 auto;
+	max-width: 120rem; /*Toma 120rem como maximo y si esta disponible */
+	
+	/* margin-top: 0; /* Margen superior */
+	/* margin-bottom: 0; /* Margen inferior */
+	/* margin-right: auto; /* Si dejas el derecho e izquierdo en auto, lo centra automaticamente */
+	/* margin-left: auto; */
+
+	/* La siguiente instruccion son las mismas que la de arriba, te ahorras lineas
+	margin: 0 auto 0 auto ;/* top, right, bottom, left  Sigue las manecillas de un reloj */
+
+	margin: 0 auto; /* Como se repiten las intrucciones, puedes colocarlo asi y hará lo mismo */
+	/* Margen del elemento hacia afuera */
+}
+
+.sombra{ /*Diseño obtenido en cssmatic */
+	-webkit-box-shadow: 5px 7px 31px -6px rgba(0,0,0,0.35);
+	-moz-box-shadow: 5px 7px 31px -6px rgba(0,0,0,0.35);
+	box-shadow: 5px 7px 31px -6px rgba(0,0,0,0.35);
+	background-color: var(--blanco);
+	padding: 2rem;
+	border-radius: 1rem ; /* Esquinas redondas */
+	margin-bottom: 3rem;
+}
+
+.boton{
+	background-color: var(--secundario);
+	color: var(--blanco);
+	padding: 1rem 3rem;
+	margin-top: 3rem;
+	font-size: 2rem;
+	text-decoration: none;
+	text-transform: uppercase; /*Texto en maysuculas */
+	font-weight: bold; /*Texto en negritas */
+	border-radius: .5rem; /* Esquinas redondeadas */
+	width: 90%; /* Ajustado para que en telefonos se vea mejor */
+	text-align: center;
+	border: none;
+}
+
+@media(min-width: 768px){
+	.boton{
+		width: auto;
+		margin-top: 7rem;
+	}
+}
+
+.boton:hover{
+	cursor: pointer; /* Agrega la mano del puntero al pasar por el boton */
+}
+
+
+
+/* Utilidades */
+
+.w-sm-100{
+	width: 100%;
+}
+
+@media(min-width: 768px){
+	.w-sm-100{
+		width: auto;
+	}
+}
+
+.flex{
+	display: flex;
+}
+
+.alinear-derecha{
+	justify-content: flex-end;
+}
+
+.nav-bg{
+	background-color: var(--secundario); /*Color de fondo */
+}
+
+.navegacion_principal{
+	/* Cuando solo tiene un elemento lo interpreta para todos los extremos */
+	display: flex;
+	flex-direction: column; /* Por defecto es la que flex trae row(fila) */
+	align-items: center; /*Alineacion 
+	
+
+	/* display:  inline; */
+}
+
+@media(min-width: 768px){ /* Para tablet */
+	.navegacion_principal{
+		flex-direction: row;
+		justify-content: space-between; /* Propiedad dada por flex, da espacio entre los elementos 
+										de manera horizontal */
+	}
+}
+
+.navegacion_principal a{ /* Modifica los enlaces */
+	display: block; 
+	text-align: center;
+	padding: 1rem; /* Margen desde el elemento hacia adentro */
+	color: var(--blanco);
+	text-decoration: none; /* Quita la linea inferior de los enlaces */
+	font-size: 2rem;
+	font-weight: 700; /* Negritas, 400 para normal */
+}
+
+.navegacion_principal a:hover{ /* Evento creado en css, evento cuando pasas el mouse por el enlace */
+	background-color: var(--primario);
+	color: var(--oscuro);
+}
+
+/*Ejemplo de como usar un Media Queries */
+/*
+@media(min-width: 480px){ /*De 480px para arriba realiza las siguientes instrucciones*/
+/*	body{
+		background-color: blue;
+	}
+}
+*/
+
+.imagen{
+	background-image: url(../img/diseño.png); 
+	background-repeat: no-repeat; /* Las imagenes por defecto se repiten cuando 
+	 la pantalla se hace mas grander, con esta instruccion evitamos que se repita */
+	background-size: cover; /* Llena el tamaño del div */
+	height: 450px;
+	position: relative; /* Quiero posicionar la clase "imagen-fondo", entonces vengo
+		al padre y le doy la propiedad de postivion: relative; para que el hijo pueda 
+		usar position absolue */
+	margin-bottom: 2rem;
+}
+
+.imagen-fondo{
+	position: absolute; /* Las coordenadas de posicion son consideradas dentro del
+			padre */
+	background-color: rgba(0,0,0,.7); /* rgb(0,0,0) = negro ; rgba(0,0,0,#) # Indica 
+										el número de tranparencia */
+	background-color: rgb(0 0 0 /70%); /* Realiza la misma tarea que la instruccion de
+						arriba, pero no tiene mucho soporte, por lo que esta bien si estan
+						las dos instrucciones */
+	width: 100%;
+	height: 100%;
+	/* Con las dos instruccones anteriores indicamos que tome el alto y ancho del padre
+		para la pocisión */
+	
+	/* Centrado -> Alineacion vertical y horizontal */
+	display: flex;
+	flex-direction: column;
+	align-items: center; /* Alineacion horizontal usando column */
+	justify-content: center; /* Alineación vertical usando column */
+
+}
+
+.imagen-fondo h2, .imagen-fondo p{
+	color: var(--blanco);
+}
+
+/* Servicios */
+
+@media(min-width: 768px){
+	.servicios{
+		display: grid;
+		/* Ejemplo */ 
+	 	/* grid-template-columns: 300px 300px; /* Define dos columnas y con su espacio respectivo */
+	 	/* grid-template-rows: 200px 800px; /* Define dos filas con su espacio respecivo */
+
+	 	/* grid:  200px 800px / 300px 300px; /* Esta instruccion es la misma que las dos
+	 									de arriba */
+
+	 	grid-template-columns: repeat(3, 1fr); /* Hace la mismo que la instrucciond e abajo */
+	 	 /* 1fr 1fr 1fr ; /* Divide el entero en todos los fr */
+	 	 /* == 33.3% 33.3% 33.3%*/
+
+	 	column-gap: 2rem; /* Margen de separacion de las columnas */
+	}
+}
+.servicio{
+	text-align: center;
+}
+
+.servicio{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	/* Las intrucciones anteriores sirven para centrar el contenido, incluido el icono */
+}
+
+.servicio h3{
+	color: var(--secundario);
+	font-weight: normal; /* Para evitar que sea negritas */
+
+}
+
+.servicio p{
+	line-height: 2; /* Separación de la lineas de texto */
+	text-align: center;
+}
+
+.servicio .icono{
+	height: 15rem; /*Altura */
+	width: 15rem; /*Ancho */
+	background-color: var(--primario);
+	border-radius: 50%; /* 50% para que sea un circulo */
+	display: flex;
+	justify-content: space-evenly; /* Horizontal */
+	align-items: center; /* Vertical */
+}
+
+
+/* Contacto */
+
+.formulario{
+	background-color: var(--gris);
+	width: min(60rem, 90%); /* Toma 2 parametros, utiliza el valor mas pequeño
+	/* Si el 100% del espacio de ancho es mas pequeño que 60 rem entonces toma el 100%
+		si no, toma solo 60rem /*
+	/* Le cambie a 90% para que se viera mejor */
+	/* Asi evitas usar un media queries */
+	margin: 0 auto; /* Usar margin cuando los elementos padre no tengan display:flex */
+	/* margin cuando sea un elemento de tipo block */
+	padding: 2rem;
+	border-radius: 1rem;
+
+}
+
+.formulario fieldset{ /* Eliminamos el borde que el fieldset en html crea por defecto */
+	border: none;
+}
+
+.formulario legend{
+	text-align: center;
+	font-size: 1.8rem;
+	text-transform: uppercase;
+	font-weight: 700; /* Negritas */
+	margin-bottom: 2rem;
+	color: var(--primario);
+}
+
+@media(min-width: 768px){
+	.formulario{
+		max-width: 880px;
+		margin: 0 auto;
+	}
+}
+
+@media(min-width: 768px){
+	.contenedor-campos{
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		column-gap: 2rem; /*Separacion de columnas */
+		grid-template-rows: auto auto 20rem ;
+	}	
+
+	.campo:nth-child(3),
+	.campo:nth-child(4){ /* De todos las secciones que se llaman igual en el html toma
+			la del parametro */
+		grid-column: 1 / 3; /* Correo va de la columna 1 a la 3
+		/* Tambien se puede usar grid-row para las filas */
+	}
+
+}
+
+.campo{
+	margin-bottom: 1rem;
+	width: 100%;
+}
+
+.campo label{
+	color: var(--blanco);
+	font-weight: bold;
+	margin-bottom: .5rem;
+	display: block;
+}
+
+.campo textarea{
+	height: 20rem; /*Altura*/
+}
+/*
+.campo input[type="text"],
+.campo input[type="tel"]{} /* Asi podemos seleccionar diferentes campos */
+
+.input-text{
+	width: 100%; /* Ancho */
+	border: none;
+	padding: .5rem; 
+	border-radius: .5rem;
+}
+
+/* footer */
+
+.footer{
+	text-align: center;
+}
+
+
+
+
+
+
+
+
+
